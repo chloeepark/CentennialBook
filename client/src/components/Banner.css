@@ -1,0 +1,16 @@
+.banner {
+  width: 100vw; /* Full viewport width */
+  background-color: #343a40; /* Darker gray color */
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed; /* Fix the banner at the top */
+  top: 0;
+  left: 0;
+}
+
+.banner h1 {
+  margin: 0;
+  font-size: 24px;
+  text-align: left;
+  color: #ffffff; /* White text color */
+}

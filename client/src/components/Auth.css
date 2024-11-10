@@ -1,0 +1,48 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding-top: 60px; /* Adjust for the fixed banner height */
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.auth-form h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.auth-form input {
+  margin-bottom: 15px; /* Increased margin for more spacing */
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.auth-form button {
+  margin-top: 10px; /* Added margin for spacing */
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.auth-form p {
+  margin-top: 15px; /* Increased margin for more spacing */
+  font-size: 16px;
+}
