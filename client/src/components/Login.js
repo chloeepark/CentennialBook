@@ -1,39 +1,52 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
-import './Auth.css';
-import Banner from './Banner';
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
+import "./Auth.css";
 
 function Login({ setIsAuthenticated }) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/login', { username, password });
-      if (response.data.message === 'Login successful') {
+      const response = await axios.post("http://localhost:5000/login", {
+        username,
+        password,
+      });
+      if (response.data.message === "Login successful") {
         setIsAuthenticated(true);
-        navigate('/home');
+        navigate("/home");
       } else {
-        alert('Invalid credentials');
+        alert("Invalid credentials");
       }
     } catch (error) {
-      console.error('There was an error logging in!', error);
+      console.error("There was an error logging in!", error);
     }
   };
 
   return (
     <div>
-      <Banner />
       <div className="auth-container">
         <form onSubmit={handleSubmit} className="auth-form">
           <h2>Login</h2>
-          <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
-          <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <button type="submit">Login</button>
-          <p>Don't have an account? <Link to="/signup">Sign up</Link></p>
+          <p>
+            Don't have an account? <Link to="/signup">Sign up</Link>
+          </p>
         </form>
       </div>
     </div>

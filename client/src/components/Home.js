@@ -1,18 +1,16 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import Banner from './Banner';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function Home({ setIsAuthenticated }) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
     setIsAuthenticated(false);
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
     <div>
-      <Banner />
       <div className="home-container">
         <h2>Home</h2>
         <button onClick={handleLogout}>Logout</button>
