@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Auth.css"
@@ -6,9 +6,15 @@ import "./Auth.css"
 function ForgotPassword () {
     const [username, setUsername] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [formInAction, setFormInAction] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if(formInAction) { //if currently handling a request, stop them from submitting another one by spamming the submit button.
+          setErrorMessage("Please wait.");
+          return;
+        }
+        setFormInAction(true);
         try {
             const response =  await axios.post("http://localhost:5000/forgotPassword", { username });
             setErrorMessage("");
@@ -19,6 +25,8 @@ function ForgotPassword () {
             if(error.response && error.response.data)  {
                 setErrorMessage(error.response.data.message || "An Error Occurred!");
             }
+        } finally {
+          setFormInAction(false);
         }
     };
 
@@ -27,7 +35,8 @@ function ForgotPassword () {
           <div className="auth-container">
             <form onSubmit={handleSubmit} className="auth-form">
               <h2>Reset Password</h2>
-              {errorMessage && <p class="error">{errorMessage}</p>}
+              {errorMessage && <p className="error">{errorMessage}</p>}
+              {formInAction && <p>{"Please wait while we process.."}</p>}
               <input
                 type="text"
                 placeholder="Username"
