@@ -9,6 +9,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
 import Banner from "./components/Banner";
+import ForgotPassword from "./components/ForgotPassword";
 
 function App() {
   // Depending if user is authenticated or not, will determine what links to show
@@ -34,6 +35,7 @@ function App() {
           }
         />
         <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/forgotPassword" element = {<ForgotPassword />} />
       </Routes>
     </Router>
   );

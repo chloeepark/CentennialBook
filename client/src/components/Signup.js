@@ -6,14 +6,21 @@ import "./Auth.css";
 function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  //state for error handling
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.post("http://localhost:5000/signup", { username, password });
+      setErrorMessage("");
       navigate("/login");
     } catch (error) {
+      //if any errors on server side, display
+      if(error.response && error.response.data) {
+        setErrorMessage(error.response.data.message || "An error occured.");
+      }
       console.error("There was an error signing up!", error);
     }
   };
@@ -23,6 +30,7 @@ function Signup() {
       <div className="auth-container">
         <form onSubmit={handleSubmit} className="auth-form">
           <h2>Signup</h2>
+          {errorMessage && <p class="error">{errorMessage}</p>}
           <input
             type="text"
             placeholder="Username"

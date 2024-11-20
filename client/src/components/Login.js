@@ -47,6 +47,9 @@ function Login({ setIsAuthenticated }) {
           <p>
             Don't have an account? <Link to="/signup">Sign up</Link>
           </p>
+          <p>
+            Forgot password? <Link to="/forgotPassword">Reset Password</Link>
+            </p>
         </form>
       </div>
     </div>

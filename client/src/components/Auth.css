@@ -4,6 +4,12 @@ html, body {
   height: 100%;
 }
 
+/*Error message style*/
+
+.error{
+  color: red;
+}
+
 .auth-container {
   display: flex;
   justify-content: center;
