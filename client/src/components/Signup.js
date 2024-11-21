@@ -30,7 +30,7 @@ function Signup() {
       <div className="auth-container">
         <form onSubmit={handleSubmit} className="auth-form">
           <h2>Signup</h2>
-          {errorMessage && <p class="error">{errorMessage}</p>}
+          {errorMessage && <p className="error">{errorMessage}</p>}
           <input
             type="text"
             placeholder="Username"

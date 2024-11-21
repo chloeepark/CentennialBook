@@ -10,6 +10,7 @@ import Signup from "./components/Signup";
 import Home from "./components/Home";
 import Banner from "./components/Banner";
 import ForgotPassword from "./components/ForgotPassword";
+import ResetPassword from "./components/ResetPassword";
 import EventFeed from "./components/EventFeed";
 import ClubManagement from "./components/ClubManagement";
 
@@ -63,6 +64,8 @@ function App() {
         />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/forgotPassword" element = {<ForgotPassword />} />
+        <Route path="/resetPassword/:token" element= {<ResetPassword />}/>
       </Routes>
     </Router>
   );
