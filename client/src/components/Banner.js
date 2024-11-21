@@ -1,18 +1,21 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Banner.css";
 
 function Banner({ isAuthenticated }) {
   return (
-    <div className="banner">
-      <h1>CentennialBook</h1>
+    <nav className="banner">
+      <Link to="/" className="logo">CentennialBook</Link>
       {isAuthenticated && (
-        <ul className="user-links">
-          <li>
-            <a href="/profile">Profile</a>
-          </li>
-        </ul>
+        <div className="nav-links">
+          <Link to="/events">Events</Link>
+          <Link to="/clubs">Clubs</Link>
+          <Link to="/profile">Profile</Link>
+          <Link to="/rsvp">RSVP</Link>
+          <Link to="/login">Logout</Link>
+        </div>
       )}
-    </div>
+    </nav>
   );
 }
 

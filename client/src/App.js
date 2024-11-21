@@ -11,18 +11,25 @@ import Home from "./components/Home";
 import Banner from "./components/Banner";
 import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
+import EventFeed from "./components/EventFeed";
+import ClubManagement from "./components/ClubManagement";
 
 function App() {
-  // Depending if user is authenticated or not, will determine what links to show
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userRole, setUserRole] = useState(null);
 
   return (
     <Router>
-      <Banner isAuthenticated={isAuthenticated} />
+      <Banner isAuthenticated={isAuthenticated} userRole={userRole} />
       <Routes>
         <Route
           path="/login"
-          element={<Login setIsAuthenticated={setIsAuthenticated} />}
+          element={
+            <Login 
+              setIsAuthenticated={setIsAuthenticated}
+              setUserRole={setUserRole}
+            />
+          }
         />
         <Route path="/signup" element={<Signup />} />
         <Route
@@ -35,6 +42,27 @@ function App() {
             )
           }
         />
+        <Route 
+          path="/clubs" 
+          element={
+            isAuthenticated ? (
+              <ClubManagement />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route 
+          path="/events" 
+          element={
+            isAuthenticated ? (
+              <EventFeed />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/forgotPassword" element = {<ForgotPassword />} />
         <Route path="/resetPassword/:token" element= {<ResetPassword />}/>

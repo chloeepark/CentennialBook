@@ -1,0 +1,206 @@
+.main-container {
+    max-width: 1200px;
+    margin: 7rem auto 2rem;
+    padding: 0 2.5rem;
+  }
+  
+  .content-box {
+    background: white;
+    padding: 2rem 0;
+  }
+  
+  .create-button {
+    padding: 0.5rem 1rem;
+    border: 1px solid #e0e0e0;
+    background: white;
+    color: #666;
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 2rem;
+  }
+  
+  .create-button:hover {
+    background: #f9f9f9;
+    color: #333;
+  }
+  
+  .club-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .club-item {
+    padding: 2rem;
+    border: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  
+  .club-content {
+    flex: 1;
+    padding-right: 2rem;
+  }
+  
+  .club-name {
+    font-size: 1.4rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .club-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #666;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .edit-button,
+  .delete-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    border: 1px solid #e0e0e0;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .edit-button {
+    color: #666;
+  }
+  
+  .delete-button {
+    color: #ff4444;
+    border-color: #ff4444;
+  }
+  
+  .edit-button:hover {
+    background: #f9f9f9;
+    color: #333;
+  }
+  
+  .delete-button:hover {
+    background: #fff1f1;
+  }
+  
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 4px;
+    width: 90%;
+    max-width: 500px;
+  }
+  
+  .modal-content h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    color: #333;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e0e0e0;
+    font-size: 0.9rem;
+    font-family: inherit;
+  }
+  
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: #666;
+  }
+  
+  .modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  
+  .cancel-button,
+  .submit-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .cancel-button {
+    background: white;
+    color: #666;
+  }
+  
+  .submit-button {
+    background: #333;
+    color: white;
+    border-color: #333;
+  }
+  
+  .cancel-button:hover {
+    background: #f9f9f9;
+  }
+  
+  .submit-button:hover {
+    background: #444;
+  }
+  
+  @media (max-width: 768px) {
+    .main-container {
+      padding: 0 1rem;
+      margin-top: 6rem;
+    }
+  
+    .club-item {
+      flex-direction: column;
+      padding: 1.5rem;
+    }
+  
+    .club-content {
+      padding-right: 0;
+      margin-bottom: 1rem;
+    }
+  
+    .action-buttons {
+      align-self: flex-end;
+    }
+  
+    .club-name {
+      font-size: 1.2rem;
+    }
+  }
