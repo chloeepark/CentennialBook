@@ -1,54 +1,133 @@
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
-
-/*Error message style*/
-
-.error{
-  color: red;
-}
-
 .auth-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  padding-top: 60px; /* Adjust for the fixed banner height */
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: #ffffff;
 }
 
 .auth-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  padding: 2.5rem;
+  background: white;
+  border: 1px solid #f0f0f0;
 }
 
 .auth-form h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  color: #333;
+  text-align: center;
 }
 
 .auth-form input {
-  margin-bottom: 15px; /* Increased margin for more spacing */
-  padding: 10px;
-  font-size: 16px;
   width: 100%;
-  max-width: 300px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 0;
+  font-size: 0.9rem;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  color: #333;
+  transition: border-color 0.2s ease;
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: #666;
+}
+
+.auth-form input::placeholder {
+  color: #999;
 }
 
 .auth-form button {
-  margin-top: 10px; /* Added margin for spacing */
-  padding: 10px 20px;
-  font-size: 16px;
+  width: 100%;
+  padding: 0.75rem;
+  margin: 1.5rem 0;
+  background-color: #333;
+  color: white;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 300;
+  letter-spacing: 0.5px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.auth-form button:hover {
+  background-color: #444;
 }
 
 .auth-form p {
-  margin-top: 15px; /* Increased margin for more spacing */
-  font-size: 16px;
+  margin: 0.5rem 0;
+  font-size: 0.85rem;
+  color: #666;
+  text-align: center;
+}
+
+.auth-form a {
+  color: #333;
+  text-decoration: none;
+  font-weight: 400;
+  transition: color 0.2s ease;
+}
+
+.auth-form a:hover {
+  color: #000;
+}
+
+/* Error message styling */
+.auth-error {
+  color: #ff4444;
+  font-size: 0.85rem;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+/* Success message styling */
+.auth-success {
+  color: #4CAF50;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Loading state */
+.auth-form button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .auth-container {
+    padding: 1rem;
+  }
+
+  .auth-form {
+    padding: 2rem 1.5rem;
+  }
+
+  .auth-form h2 {
+    font-size: 1.25rem;
+  }
+}
+
+/* For smaller screens */
+@media (max-width: 480px) {
+  .auth-form {
+    padding: 1.5rem 1rem;
+  }
+
+  .auth-form input,
+  .auth-form button {
+    padding: 0.6rem;
+  }
 }
