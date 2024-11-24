@@ -6,6 +6,7 @@ import User from "./models/User.js";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
+import eventRoutes from './routes/events.js';
 dotenv.config();
 
 const app = express();
@@ -188,3 +189,5 @@ app.listen(PORT, () => {
 
 // Serve static files from the 'uploads' directory
 app.use('/uploads', express.static('uploads'));
+
+app.use('/routes/events', eventRoutes);

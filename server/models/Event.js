@@ -29,7 +29,9 @@ export const eventSchema = new mongoose.Schema({
   },
   attendees: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    studentId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Reference to User model
+    status: { type: String, enum: ['Going', 'Not Going', 'Maybe'], default: 'Going' },
   }],
   createdAt: {
     type: Date,

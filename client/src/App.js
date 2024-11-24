@@ -15,6 +15,7 @@ import EventFeed from "./components/EventFeed";
 import ClubManagement from "./components/ClubManagement";
 import PostList from "./components/PostList";
 import CreatePost from "./components/CreatePost";
+import RSVP from "./components/RSVP";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -67,6 +68,7 @@ function App() {
          
         <Route path="/postList" element={<PostList />} />
         <Route path="/CreatePost" element={<CreatePost />} />
+        <Route path="/rsvp" element={<RSVP />} />
         
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/" element={<Navigate to="/login" />} />
