@@ -13,7 +13,7 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/signup", { username, password });
+      await axios.post("http://localhost:5001/signup", { username, password });
       setErrorMessage("");
       navigate("/login");
     } catch (error) {

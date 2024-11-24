@@ -12,6 +12,7 @@ function Banner({ isAuthenticated }) {
           <Link to="/clubs">Clubs</Link>
           <Link to="/profile">Profile</Link>
           <Link to="/rsvp">RSVP</Link>
+          <Link to="/CreatePost">Posts</Link>
           <Link to="/login">Logout</Link>
         </div>
       )}

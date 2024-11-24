@@ -5,17 +5,18 @@ import cors from "cors";
 import User from "./models/User.js";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
+import eventRoutes from './routes/events.js';
+dotenv.config();
 
 const app = express();
-const PORT = 5000;
+const PORT = 5001;
 
 mongoose.connect("mongodb://localhost:27017/centennialbook", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-dotenv.config()
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -59,11 +60,12 @@ app.post("/forgotPassword", async (req, res) => {
     return res.status(400).send({ message: "Username is required "});
   }
   //search for user
-  const user = await User.findOne({ username });
-  if(!user) {
-    return res.status(400).send({ message : "User not found" });
-  }
- try{
+  try {
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(400).send({ message: "User not found" });
+    }
+
    //create email transporter
    const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -83,12 +85,14 @@ app.post("/forgotPassword", async (req, res) => {
     subject: "Password Reset Request",
     text: `We have received a request to reset your password. Please reset your password using the link below.", ${process.env.FRONTEND}/${token}`
   }
+
+  await transporter.sendMail(mailOption);
   //send the email
   transporter.sendMail(mailOption, (error, info) => {
     if(error) {
-      return res.status(500).send({ message: error.message});
+      return res.status(500).send({ message: error.message}, error);
     }
-    res.send({ message: "Password Request Email Sent!" });
+    res.send({ message: "Password Request Email Sent!" }, info);
   })
  } catch (error) {
     return res.status(400).send({ message: error.message });
@@ -114,7 +118,7 @@ app.post("/resetPassword/:token", async (req, res) => {
     await user.save();
     res.send({ message : "Password reset!" });
   } catch (error) {
-    res.status(400).send({ message: "Something went wrong, please resubmit password reset request. "});
+    res.status(400).send({ message: "Something went wrong, please resubmit password reset request. "}, error);
   }
 });
 
@@ -183,4 +187,7 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
+// Serve static files from the 'uploads' directory
+app.use('/uploads', express.static('uploads'));
 
+app.use('/routes/events', eventRoutes);

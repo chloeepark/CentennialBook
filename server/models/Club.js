@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+
 const clubSchema = new mongoose.Schema({
     name: {
       type: String,
@@ -34,7 +36,6 @@ const clubSchema = new mongoose.Schema({
     }
   });
   
-  const Event = mongoose.model('Event', eventSchema);
   const Club = mongoose.model('Club', clubSchema);
   
-  module.exports = { Event, Club };
+  export default Club;

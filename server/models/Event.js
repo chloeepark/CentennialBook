@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
-const eventSchema = new mongoose.Schema({
+export const eventSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true
@@ -29,10 +29,16 @@ const eventSchema = new mongoose.Schema({
   },
   attendees: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    studentId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Reference to User model
+    status: { type: String, enum: ['Going', 'Not Going', 'Maybe'], default: 'Going' },
   }],
   createdAt: {
     type: Date,
     default: Date.now
   }
 });
+
+const Event = mongoose.model("Event", eventSchema);
+
+export default Event;
