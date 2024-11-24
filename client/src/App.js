@@ -16,6 +16,7 @@ import ClubManagement from "./components/ClubManagement";
 import PostList from "./components/PostList";
 import CreatePost from "./components/CreatePost";
 import RSVP from "./components/RSVP";
+import Profile from "./components/Profile";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -28,7 +29,7 @@ function App() {
         <Route
           path="/login"
           element={
-            <Login 
+            <Login
               setIsAuthenticated={setIsAuthenticated}
               setUserRole={setUserRole}
             />
@@ -45,35 +46,30 @@ function App() {
             )
           }
         />
-        <Route 
-          path="/clubs" 
+        <Route
+          path="/clubs"
           element={
-            isAuthenticated ? (
-              <ClubManagement />
-            ) : (
-              <Navigate to="/login" />
-            )
+            isAuthenticated ? <ClubManagement /> : <Navigate to="/login" />
           }
         />
-        <Route 
-          path="/events" 
-          element={
-            isAuthenticated ? (
-              <EventFeed />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
+        <Route
+          path="/profile"
+          element={isAuthenticated ? <Profile /> : <Navigate to="/login" />}
         />
-         
+
+        <Route
+          path="/events"
+          element={isAuthenticated ? <EventFeed /> : <Navigate to="/login" />}
+        />
+
         <Route path="/postList" element={<PostList />} />
         <Route path="/CreatePost" element={<CreatePost />} />
         <Route path="/rsvp" element={<RSVP />} />
-        
+
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/forgotPassword" element = {<ForgotPassword />} />
-        <Route path="/resetPassword/:token" element= {<ResetPassword />}/>
+        <Route path="/forgotPassword" element={<ForgotPassword />} />
+        <Route path="/resetPassword/:token" element={<ResetPassword />} />
       </Routes>
     </Router>
   );

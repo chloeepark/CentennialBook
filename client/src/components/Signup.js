@@ -18,7 +18,7 @@ function Signup() {
       navigate("/login");
     } catch (error) {
       //if any errors on server side, display
-      if(error.response && error.response.data) {
+      if (error.response && error.response.data) {
         setErrorMessage(error.response.data.message || "An error occured.");
       }
       console.error("There was an error signing up!", error);
