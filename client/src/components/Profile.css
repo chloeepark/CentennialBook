@@ -1,0 +1,83 @@
+.profile-container {
+  max-width: 60rem;
+  margin: 5rem auto 0rem auto;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.form-section,
+.delete-section {
+  margin-bottom: 2rem;
+}
+
+label {
+  font-size: 1.2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+input {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.4rem;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+}
+
+button {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+}
+
+.delete-btn:hover {
+  background-color: #a71d2a;
+}
+
+p {
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #666;
+}
+
+@media (max-width: 600px) {
+  .profile-container {
+    padding: 1.5rem;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  button {
+    width: 100%;
+  }
+}

@@ -6,7 +6,7 @@ import User from "./models/User.js";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import eventRoutes from './routes/events.js';
+import eventRoutes from "./routes/events.js";
 dotenv.config();
 
 const app = express();
@@ -17,25 +17,33 @@ mongoose.connect("mongodb://localhost:27017/centennialbook", {
   useUnifiedTopology: true,
 });
 
-app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:3000",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+app.use(cors(corsOptions));
+
 app.use(bodyParser.json());
 
 app.post("/signup", async (req, res) => {
   const { username, password } = req.body;
 
-  if(!username || !password) { //validation
-    return res.status(400).send({ message: "Username and password required"}); 
+  if (!username || !password) {
+    //validation
+    return res.status(400).send({ message: "Username and password required" });
   }
 
-  try{ //check for existing user with that username
+  try {
+    //check for existing user with that username
     const existingUser = await User.findOne({ username });
-    if(existingUser) {
+    if (existingUser) {
       return res.status(400).send({ message: "Username Taken" });
     }
     const user = new User({ username, password });
     await user.save(); //everything is fine, save
   } catch (error) {
-    if(error.name == "ValidationError") {
+    if (error.name == "ValidationError") {
       return res.status(400).send({ message: error.message });
     }
     return res.status(500).send({ message: error.message });
@@ -46,18 +54,23 @@ app.post("/signup", async (req, res) => {
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username, password });
-  if (user) {
-    res.send({ message: "Login successful" });
-  } else {
-    res.send({ message: "Invalid credentials" });
+  if (!user) {
+    return res.status(401).send({ message: "Invalid credentials" });
   }
+
+  // Create token to keep track of who is logged in
+  const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, {
+    expiresIn: "1h",
+  });
+
+  res.send({ message: "Login successful", token });
 });
 
 //forgot password
 app.post("/forgotPassword", async (req, res) => {
-  const { username }   = req.body;
-  if(!username) {
-    return res.status(400).send({ message: "Username is required "});
+  const { username } = req.body;
+  if (!username) {
+    return res.status(400).send({ message: "Username is required " });
   }
   //search for user
   try {
@@ -66,91 +79,93 @@ app.post("/forgotPassword", async (req, res) => {
       return res.status(400).send({ message: "User not found" });
     }
 
-   //create email transporter
-   const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth : {
-      user: process.env.EMAIL,
-      pass: process.env.PASS,
-    },
-  });
-  //token
-  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-    expiresIn: "10m"
-  })
-  //set up mail option (subject, to, from, etc..)
-  const mailOption = {
-    from: process.env.EMAIL,
-    to: username,
-    subject: "Password Reset Request",
-    text: `We have received a request to reset your password. Please reset your password using the link below.", ${process.env.FRONTEND}/${token}`
-  }
+    //create email transporter
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASS,
+      },
+    });
+    //token
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+      expiresIn: "10m",
+    });
+    //set up mail option (subject, to, from, etc..)
+    const mailOption = {
+      from: process.env.EMAIL,
+      to: username,
+      subject: "Password Reset Request",
+      text: `We have received a request to reset your password. Please reset your password using the link below.", ${process.env.FRONTEND}/${token}`,
+    };
 
-  await transporter.sendMail(mailOption);
-  //send the email
-  transporter.sendMail(mailOption, (error, info) => {
-    if(error) {
-      return res.status(500).send({ message: error.message}, error);
-    }
-    res.send({ message: "Password Request Email Sent!" }, info);
-  })
- } catch (error) {
+    await transporter.sendMail(mailOption);
+    //send the email
+    transporter.sendMail(mailOption, (error, info) => {
+      if (error) {
+        return res.status(500).send({ message: error.message }, error);
+      }
+      res.send({ message: "Password Request Email Sent!" }, info);
+    });
+  } catch (error) {
     return res.status(400).send({ message: error.message });
- }
+  }
 });
 
-//reset password 
+//reset password
 app.post("/resetPassword/:token", async (req, res) => {
   const token = req.params;
   const { password } = req.body;
 
-  try{
+  try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.userId;
 
     const user = await User.findById(userId);
-    if(!user) {
+    if (!user) {
       //page not found if user is not found
       return res.status(404).send({ message: "User not found" });
     }
 
     user.password = password;
     await user.save();
-    res.send({ message : "Password reset!" });
+    res.send({ message: "Password reset!" });
   } catch (error) {
-    res.status(400).send({ message: "Something went wrong, please resubmit password reset request. "}, error);
+    res.status(400).send(
+      {
+        message:
+          "Something went wrong, please resubmit password reset request. ",
+      },
+      error
+    );
   }
 });
 
-// Update username endpoint
-app.put("/profile/:username", async (req, res) => {
+const authenticateToken = (req, res, next) => {
+  const token = req.header("Authorization")?.split(" ")[1];
+  console.log("Token received in middleware:", token);
+  if (!token)
+    return res
+      .status(401)
+      .send({ message: "Access denied. No token provided." });
+
   try {
-    const { username } = req.params;
-    const { newUsername } = req.body;
+    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = verified;
+    next();
+  } catch {
+    res.status(403).send({ message: "Invalid token" });
+  }
+};
 
-    const currentUser = req.header("x-username");
-
-    if (username !== currentUser) {
-      return res
-        .status(403)
-        .send({ message: "Unauthorized to update this account" });
+app.get("/profile", authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.user.username });
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
     }
 
-    if (!newUsername || newUsername.trim() === "") {
-      return res.status(400).send({ message: "New username cannot be empty" });
-    }
-
-    const updatedUser = await User.findOneAndUpdate(
-      { username },
-      { username: newUsername },
-      { new: true }
-    );
-
-    if (updatedUser) {
-      res.send({ message: "Username updated successfully", user: updatedUser });
-    } else {
-      res.status(404).send({ message: "User not found" });
-    }
+    res.send({ username: user.username });
   } catch (error) {
     res
       .status(500)
@@ -158,19 +173,60 @@ app.put("/profile/:username", async (req, res) => {
   }
 });
 
-app.delete("/profile/:username", async (req, res) => {
+// Update username endpoint
+app.put("/profile", authenticateToken, async (req, res) => {
   try {
-    const { username } = req.params;
+    const { newUsername } = req.body;
 
-    const currentUser = req.header("x-username");
-
-    if (username !== currentUser) {
-      return res
-        .status(403)
-        .send({ message: "Unauthorized to delete this account" });
+    // Ensure the new username is provided
+    if (!newUsername || newUsername.trim() === "") {
+      return res.status(400).send({ message: "New username cannot be empty" });
     }
 
-    const deletedUser = await User.findOneAndDelete({ username });
+    // Attempt to update the username and enforce validation
+    const updatedUser = await User.findOneAndUpdate(
+      { username: req.user.username },
+      { username: newUsername },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    // Create a new token with the updated username
+    const newToken = jwt.sign(
+      { username: newUsername },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
+
+    return res.send({
+      message: "Username updated successfully",
+      user: updatedUser,
+      token: newToken,
+    });
+  } catch (error) {
+    if (error.name === "ValidationError") {
+      // Check to make sure username entered is an email
+      if (error.errors && error.errors.username) {
+        return res.status(400).send({ message: "Please enter a valid email" });
+      }
+    }
+    console.error("Error updating username:", error);
+    return res
+      .status(500)
+      .send({ message: "An error occurred", error: error.message });
+  }
+});
+
+app.delete("/profile", authenticateToken, async (req, res) => {
+  try {
+    const deletedUser = await User.findOneAndDelete({
+      username: req.user.username,
+    });
     if (deletedUser) {
       res.send({ message: "User account deleted successfully" });
     } else {
@@ -188,6 +244,6 @@ app.listen(PORT, () => {
 });
 
 // Serve static files from the 'uploads' directory
-app.use('/uploads', express.static('uploads'));
+app.use("/uploads", express.static("uploads"));
 
-app.use('/routes/events', eventRoutes);
+app.use("/routes/events", eventRoutes);

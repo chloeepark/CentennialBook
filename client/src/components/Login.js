@@ -16,6 +16,10 @@ function Login({ setIsAuthenticated }) {
         password,
       });
       if (response.data.message === "Login successful") {
+        const token = response.data.token; // Extract the token
+        console.log("Token received:", token); // Log the token for debugging
+        localStorage.setItem("token", token); // Save the token to localStorage
+
         setIsAuthenticated(true);
         navigate("/home");
       } else {
@@ -49,7 +53,7 @@ function Login({ setIsAuthenticated }) {
           </p>
           <p>
             Forgot password? <Link to="/forgotPassword">Reset Password</Link>
-            </p>
+          </p>
         </form>
       </div>
     </div>
