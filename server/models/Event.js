@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
-const eventSchema = new mongoose.Schema({
+export const eventSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true
@@ -36,3 +36,7 @@ const eventSchema = new mongoose.Schema({
     default: Date.now
   }
 });
+
+const Event = mongoose.model("Event", eventSchema);
+
+export default Event;

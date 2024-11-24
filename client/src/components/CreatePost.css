@@ -1,0 +1,93 @@
+/* Container */
+.create-post-container {
+   max-width: 600px;
+   margin: 200px auto;
+   padding: 20px;
+   background-color: #f9f9f9;
+   border-radius: 10px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ }
+ 
+ /* Header */
+ .create-post-header {
+   text-align: center;
+   color: #333;
+   font-size: 24px;
+   margin-bottom: 20px;
+ }
+ 
+ /* Form */
+ .create-post-form {
+   display: flex;
+   flex-direction: column;
+   gap: 15px;
+ }
+ 
+ .create-post-form label {
+   font-weight: bold;
+   color: #555;
+ }
+ 
+ /* Inputs */
+ .create-post-input, .create-post-textarea, .create-post-file-input {
+   width: 100%;
+   padding: 10px;
+   border: 1px solid #ccc;
+   border-radius: 5px;
+   font-size: 16px;
+   transition: border-color 0.2s ease;
+ }
+ 
+ .create-post-input:focus, .create-post-textarea:focus, .create-post-file-input:focus {
+   border-color: #4caf50;
+   outline: none;
+ }
+ 
+ /* Textarea */
+ .create-post-textarea {
+   height: 100px;
+   resize: none;
+ }
+ 
+ /* Button */
+ .create-post-button {
+   background-color: #4caf50;
+   color: white;
+   font-size: 18px;
+   padding: 10px 20px;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   transition: background-color 0.3s ease;
+ }
+ 
+ .create-post-button:hover {
+   background-color: #45a049;
+ }
+ 
+ .create-post-button:disabled {
+   background-color: #ccc;
+   cursor: not-allowed;
+ }
+ 
+ /* Messages */
+ .create-post-message {
+   text-align: center;
+   font-size: 16px;
+   margin-bottom: 20px;
+   padding: 10px;
+   border-radius: 5px;
+ }
+ 
+ .create-post-message.success {
+   color: #155724;
+   background-color: #d4edda;
+   border: 1px solid #c3e6cb;
+ }
+ 
+ .create-post-message.error {
+   color: #721c24;
+   background-color: #f8d7da;
+   border: 1px solid #f5c6cb;
+ }
+ 

@@ -16,7 +16,7 @@ function ForgotPassword () {
         }
         setFormInAction(true);
         try {
-            const response =  await axios.post("http://localhost:5000/forgotPassword", { username });
+            const response =  await axios.post("http://localhost:5001/forgotPassword", { username });
             setErrorMessage("");
             if(response.data.message === "Password Request Email Sent!") {
                 alert(response.data.message);

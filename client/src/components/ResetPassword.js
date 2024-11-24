@@ -17,7 +17,7 @@ function ResetPassword() {
                 setErrorMessage("Passwords do not match");
                 return;
             }
-            await axios.post(`http://localhost:5000/resetPassword/${token}`, { password });
+            await axios.post(`http://localhost:5001/resetPassword/${token}`, { password });
             setErrorMessage("");
             navigate("/login");
         } catch (error) {
