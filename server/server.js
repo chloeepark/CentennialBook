@@ -51,19 +51,59 @@ app.post("/signup", async (req, res) => {
   res.send({ message: "User created" });
 });
 
-app.post("/login", async (req, res) => {
+app.post("/admin/signup", async (req, res) => {
   const { username, password } = req.body;
-  const user = await User.findOne({ username, password });
-  if (!user) {
-    return res.status(401).send({ message: "Invalid credentials" });
+
+  if (!username || !password) {
+    return res
+      .status(400)
+      .send({ message: "Username and password are required" });
   }
 
-  // Create token to keep track of who is logged in
-  const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, {
-    expiresIn: "1h",
-  });
+  try {
+    // Check if the username already exists
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).send({ message: "Username is already taken" });
+    }
 
-  res.send({ message: "Login successful", token });
+    // Create new admin user
+    const user = new User({ username, password, isAdmin: true });
+    await user.save();
+    res.send({ message: "Admin account created successfully!" });
+  } catch (error) {
+    console.error("Error during admin signup:", error);
+    res.status(500).send({ message: "An error occurred during admin signup" });
+  }
+});
+
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // Find user by username and password
+    const user = await User.findOne({ username, password });
+    if (!user) {
+      return res.status(401).send({ message: "Invalid credentials" });
+    }
+
+    // Create a token with the isAdmin flag
+    const token = jwt.sign(
+      { username: user.username, isAdmin: user.isAdmin },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    // Include isAdmin in the response
+    res.send({
+      message: "Login successful",
+      token,
+      isAdmin: user.isAdmin, // Pass this to the client
+    });
+  } catch (error) {
+    console.error("Error during login:", error);
+    res.status(500).send({ message: "An error occurred during login" });
+  }
 });
 
 //forgot password
