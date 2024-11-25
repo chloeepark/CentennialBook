@@ -1,7 +1,9 @@
 .auth-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 1rem;
   min-height: 100vh;
   padding: 2rem;
   background-color: #ffffff;
@@ -93,7 +95,7 @@
 
 /* Success message styling */
 .auth-success {
-  color: #4CAF50;
+  color: #4caf50;
   font-size: 0.85rem;
   margin-bottom: 1rem;
   text-align: center;
@@ -103,6 +105,28 @@
 .auth-form button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+.tabs {
+  display: flex;
+  gap: 1rem;
+}
+
+.tabs button:hover {
+  background-color: #444;
+}
+
+.tabs button {
+  width: 150px;
+  padding: 0.75rem;
+  background-color: #333;
+  color: white;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 /* Responsive adjustments */
