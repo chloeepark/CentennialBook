@@ -19,17 +19,14 @@ function Login({ setIsAuthenticated }) {
       });
 
       if (response.data.message === "Login successful") {
-        const token = response.data.token; // Extract token
-        const isAdmin = response.data.isAdmin; // Extract isAdmin flag
+        const token = response.data.token;
+        const isAdmin = response.data.isAdmin;
 
-        console.log("Token received:", token); // Debugging
-        console.log("Is Admin:", isAdmin); // Debugging
-
-        localStorage.setItem("token", token); // Save the token
-        localStorage.setItem("isAdmin", isAdmin); // Save isAdmin flag
+        localStorage.setItem("token", token);
+        localStorage.setItem("isAdmin", isAdmin);
 
         setIsAuthenticated(true);
-        navigate("/home"); // Redirect to home
+        navigate("/home");
       } else {
         alert("Invalid credentials");
       }
