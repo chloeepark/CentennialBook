@@ -36,4 +36,27 @@ router.post('/create', upload.single('image'), async (req, res) => {
   }
 });
 
+// Search and filter posts
+router.get('/search', async (req, res) => {
+  const { keyword, category, startDate, endDate } = req.query;
+
+  const filter = {};
+  if (keyword) filter.title = { $regex: keyword, $options: 'i' }; // Case-insensitive search
+  if (category) filter.category = category;
+  if (startDate || endDate) {
+      filter.createdAt = {};
+      if (startDate) filter.createdAt.$gte = new Date(startDate);
+      if (endDate) filter.createdAt.$lte = new Date(endDate);
+  }
+
+  try {
+      const posts = await Post.find(filter);
+      res.status(200).json(posts);
+  } catch (error) {
+      res.status(500).json({ message: 'Error fetching posts', error });
+  }
+});
+
+
+
 module.exports = router;

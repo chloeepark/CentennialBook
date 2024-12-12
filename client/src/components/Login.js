@@ -12,25 +12,46 @@ function Login({ setIsAuthenticated }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage(""); // Reset error message
+
     try {
+      // Sending the login request to the backend
       const response = await axios.post("http://localhost:5001/login", {
         username,
         password,
       });
 
       if (response.data.message === "Login successful") {
-        const token = response.data.token;
-        const isAdmin = response.data.isAdmin;
+        const { token, isAdmin } = response.data;
 
+        // Store authentication data in local storage
         localStorage.setItem("token", token);
         localStorage.setItem("isAdmin", isAdmin);
 
         setIsAuthenticated(true);
         navigate("/home");
       } else {
-        alert("Invalid credentials");
+        setErrorMessage("Invalid credentials. Please try again.");
       }
     } catch (error) {
+      if (error.response) {
+        // Backend responded with an error
+        const status = error.response.status;
+        if (status === 401) {
+          setErrorMessage("Unauthorized: Please check your credentials.");
+        } else if (status === 400) {
+          setErrorMessage("Bad Request: Please fill in all required fields.");
+        } else {
+          setErrorMessage("An unexpected error occurred. Please try again.");
+        }
+      } else if (error.request) {
+        // Request was made but no response received
+        setErrorMessage("Server is not responding. Please try again later.");
+      } else {
+        // Something else happened during the request setup
+        setErrorMessage("An error occurred: " + error.message);
+      }
+
       console.error("Error during login:", error);
     }
   };
@@ -69,12 +90,14 @@ function Login({ setIsAuthenticated }) {
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            required
           />
           <input
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
           <button type="submit">
             {activeTab === "user" ? "Login as User" : "Login as Admin"}
